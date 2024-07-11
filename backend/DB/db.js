@@ -8,13 +8,4 @@ const db = new Pool({
     port: process.env.DB_PORT,
 });
 
-// Teste de conexão com o banco de dados
-db.query('SELECT NOW()', (err, res) => {
-    if (err) {
-        console.error('Erro ao conectar ao banco de dados:', err.stack);
-    } else {
-        console.log('Conexão com o banco de dados bem-sucedida.');
-        console.log('Hora atual do banco de dados:', res.rows[0].now);
-    }
-});
 module.exports = db;

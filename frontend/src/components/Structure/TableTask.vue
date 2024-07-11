@@ -16,8 +16,8 @@
         <td>{{ task.task_desc }}</td>
         <td>{{ task.task_end }}</td>
         <td>
-          <img v-show="userId == task.user_id" src="/icons/icon-edit.svg" alt="Editar" title="Editar" @click="editEvent(task.task_id)">
-          <img v-show="userId == task.user_id" src="/icons/icon-trash.svg" alt="Deletar" title="Deletar" @click="deleteEvent(task.task_id)">
+          <img v-show="task.task_end == false" src="/icons/icon-edit.svg" alt="Editar" title="Editar" @click="editEvent(task.task_id)">
+          <img src="/icons/icon-trash.svg" alt="Deletar" title="Deletar" @click="deleteEvent(task.task_id)">
         </td>
       </tr>
     </tbody>

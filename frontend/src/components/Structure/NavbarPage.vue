@@ -2,7 +2,7 @@
   
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     
-    <a class="navbar-brand mr-auto" href="#" >
+    <a class="navbar-brand mr-auto" href="/" >
       
       <img src="/logo.png" alt="Lista de Tarefas" width="50" height="50">
       
