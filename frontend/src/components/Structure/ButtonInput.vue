@@ -1,22 +1,23 @@
 <template>
-  <a :href="link" :class="buttonClass">{{ label }}</a>
+    <button :type="buttonType" :class="buttonClass" >{{ label }}</button>
 </template>
 
 <script>
 export default {
   props: {
-    link: {
+    label: {
       type: String,
       required: true
+    },
+    buttonType: {
+      type: String,
+      required: true,
+      default: 'input'
     },
     color: {
       type: String,
       default: 'purple'
     }, 
-    label: {
-      type: String,
-      default: ''
-    }
   },
   computed: {
     buttonClass() {
@@ -26,5 +27,3 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>

@@ -1,15 +1,19 @@
 <template>
 
   <div>
-      <h2 class="text-center" v-show="tasks != undefined">Lista de Tarefas</h2>
-    <div class="no-task" v-show="tasks == undefined">
-      <h2 class="text-center">Você não possui nenhuma tarefa, clique no botão para criar uma</h2>
-
-      <ButtonLink link="/task" color="purple" label="Novo" />
-    </div>
+      <h2 class="text-center">Lista de Tarefas</h2>
   
+      <div class="d-flex justify-content-center align-items-center mb-3">
+        <span>Status: </span>
+        <select class="form-select form-select-sm" id="task_end" style="width: auto;" @change="searchTasks($event.target.value)">
+          <option value="0">Todos</option>
+          <option value="True">Concluídas</option>
+          <option value="False">Pendentes</option>
+        </select>
+ 
+      </div>
     <div>
-      <TableTask :tasks="tasks" @edit-event="handleEditEvent" @delete-event="handleDeleteEvent"/>
+      <TableTask :tasks="tasks" @edit-event="handleEditTask" @delete-event="handleDeleteTask" :deletedTasks="deletedTasks"/>
     </div>
   </div>
 
@@ -30,16 +34,21 @@ export default {
   data() {
     return {
       tasks: [],
+      deletedTasks: [],
       type: 'tasks'
     };
   },
   mounted() {
     console.log(BACKEND_URL+this.type);
     this.tasks = this.searchTasks();
+    this.tasks = null;
   },
   methods: {
-    searchTasks(){
+    searchTasks(iStatus = ''){
       axios.get(BACKEND_URL+this.type, {
+        params: {
+        status: iStatus
+    }
       })
         .then(response => {
           if(response.status == 200){ 
@@ -55,12 +64,26 @@ export default {
           }
         });
     }, 
-    handleEditEvent(taskId) {
+    handleEditTask(taskId) {
       this.$router.push({ name: 'task', params: { taskId: taskId } });
     },
-    handleDeleteEvent(taskId) {
-      // Lógica para deletar o evento
-      console.log('Delete ' + taskId)
+    handleDeleteTask(taskId) {
+      axios.delete(BACKEND_URL+this.type+'/'+taskId, {
+      })
+        .then(response => {
+          if(response.status == 200){ 
+            alert(response.data.message)
+            this.deletedTasks.push(taskId)
+          } 
+        })
+        .catch(error => {
+          this.errorMessage = error.response.tasks;
+          if(this.errorMessage == undefined){
+
+          } else {
+            alert('Atenção! Erro ao deletar task! ' + this.errorMessage);
+          }
+        });
     }
   }
 };
