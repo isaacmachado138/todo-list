@@ -7,8 +7,24 @@ const { listTasks, createTask, updateTask, deleteTask } = require('../modules/Ac
 
 // GET /tasks: Retornar todas as tarefas
 router.get('/', async (req, res) => {
+  const { status } = req.query;
   try {
-    listTasks(db, (err, tasks) => {
+    listTasks(db, status, (err, tasks) => {
+      if (err) {
+        res.status(401).send(err);
+      } else {
+        res.status(200).json(tasks);
+      }  
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET /tasks/:id: Retornar dados de uma tarefa em especifico
+router.get('/:id', async (req, res) => {
+  try {
+    listTasks(db, req.params.id, (err, tasks) => {
       if (err) {
         res.status(401).send(err);
       } else {
@@ -27,7 +43,8 @@ router.post('/', async (req, res) => {
       if (err) {
         res.status(401).send(err);
       } else {
-        res.status(201).json(newTask);
+        res.status(200).json(newTask);
+        console.log('Task generated ID: '+newTask.task_id)
       }
     });
   } catch (err) {
@@ -38,11 +55,11 @@ router.post('/', async (req, res) => {
 // PUT /tasks/:id: Atualizar uma tarefa existente
 router.put('/:id', async (req, res) => {
   try {
-    updateTask(db, req.params.id, req.body, (err, updatedTask) => {
+    updateTask(db, req.params.id, req.body, (err, sSuccess) => {
       if (err) {
         res.status(401).send(err);
       } else {
-        res.status(200).json(updatedTask);
+        res.status(200).json(sSuccess);
       }
     });
   } catch (err) {
