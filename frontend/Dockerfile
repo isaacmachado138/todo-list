@@ -1,5 +1,5 @@
 # Utilizando a imagem oficial do Node.js
-FROM node:16
+FROM node:16.6-alpine3.14
 
 # Diretório de trabalho dentro do container
 WORKDIR /app
@@ -7,13 +7,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instale as dependências
-RUN npm install --loglevel=error
+RUN npm install @vue/cli @vue/cli-service @vue/cli-plugin-babel
 
 COPY . .
 
-# RUN npm install -g @vue/cli-service
-
-# RUN npm install -g @vue/cli
 
 RUN npm run build
 

@@ -4,12 +4,15 @@ FROM node:16
 # diretório de trabalho dentro do container
 WORKDIR /app
 
+COPY package*.json ./
+
+#COPY ./.env ./.env
+
+# RUN npm install -g dotenv
+
 # Copiando o restante do código do backend
 COPY . .
 
-COPY package*.json ./
-
-COPY ./.env ./.env
 
 # Instalando as dependências
 RUN npm install --loglevel=error
