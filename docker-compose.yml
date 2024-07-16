@@ -1,0 +1,47 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env  
+    networks:
+      - todo_network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    volumes: 
+      - ./frontend:/app
+    depends_on:
+      - backend
+    networks:
+      - todo_network
+
+  db:
+    image: postgres:17beta2-alpine
+    environment:
+      POSTGRES_DB: db_todolist
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: isaac1234
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  
+    ports:
+      - "5432:5432"
+    networks:
+      - todo_network
+
+volumes:
+  postgres_data:
+
+networks:
+  todo_network:
+    driver: bridge
+
+
