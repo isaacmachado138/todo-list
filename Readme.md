@@ -2,7 +2,7 @@
 
 Este é um projeto de aplicação de gerenciamento de tarefas (ToDo List) que inclui um backend em Node.js e um frontend em Vue.js. Além disso, foi usado o Docker para containerização da aplicação
 
-## Requisitos
+## Funcionalidades
 
 ### Backend (Node.js + Express.js)
 
