@@ -108,7 +108,9 @@ export default {
   },
   mounted() {
     this.taskEditId = this.$route.params.taskId;
-    this.tasks = this.search(this.taskEditId);
+    if(this.taskEditId){
+      this.tasks = this.search(this.taskEditId);
+    }
   },
   methods: {
     search(taskEditId){
